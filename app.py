@@ -15,16 +15,25 @@ def get_weather_data(city):
     return r 
 
 
-@app.route('/about')
-def about():
-    get_weather_data('Guayaquil')
-    return get_weather_data('Guayaquil')
-
 @app.route('/clima')
 def clima():
-    return 'Obtener todo la información del clima'
+    clima= get_weather_data('Ambato')
+    temperatura=str(clima['main']['temp'])
+    descripcion=str(clima['weather'][0]['description'])
+    icono=str(clima['weather'][0]['icon'])
+
+    r_json={ 
+        'ciudad':'Ambato',
+        'temperatura': temperatura,
+        'descripcion':descripcion,
+        'icono':icono}
+    return render_template('weather.html',clima= r_json)
+    
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
